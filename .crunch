@@ -1,0 +1,27 @@
+{
+	"files": {
+		"css/style.less": {
+			"engines": [
+				{
+					"compiler": "less",
+					"output": "style.css",
+					"options": {
+						"compress": false,
+						"ieCompat": false,
+						"strictMath": false,
+						"strictUnits": false,
+						"javascriptEnabled": false,
+						"sourceMap": true
+					}
+				}
+			],
+			"sources": [
+				"loading5.less",
+				"loading6.less",
+				"loading7.less",
+				"panel.less",
+				"style.less"
+			]
+		}
+	}
+}
