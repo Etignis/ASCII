@@ -9,35 +9,41 @@ body {
   margin-top: 0px;
   margin-right: 0px;
   margin-bottom: 0px;
-  background-color: #333;
+  background-color: #222;
   color: #555;
   width: 100%;
   height: 100%;
   font-size: 16px;
-  overflow: hidden;
+  //overflow: hidden;
   position: relative;
+  padding-top: 1px;
 }
 img {
   border: none;
 }
 .console{
-  background: #111;
-  color: #999;
-  border: 2px solid #555;
+    @c_cons_bg: #111;
+    @c_cons_txt: #999;
+    @c_cons_brd: #555;
+    font-size: 80%;
+  background: @c_cons_bg;
+  color: @c_cons_txt;
+  border: 2px solid @c_cons_brd;
   padding: 1em;
   padding-top: 3em;
   margin: 1em;
   position: relative;
+  min-width: 30em;
 
     &:before{
-        content: "ASCII";
+        content:  "► " attr(data-title);
         position: absolute;
         height: 1em;
         padding: .5em;
         left: 0;
         right: 0;
         top: 0;
-        background: #555;
-        color: #111
+        background: @c_cons_brd;
+        color: @c_cons_bg;
     }
 }
