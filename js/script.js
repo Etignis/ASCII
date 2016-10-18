@@ -455,11 +455,6 @@ var test1 = {
     "###",
     "###",
     "###"
-    ],
-    [
-    "@@@",
-    "@@@",
-    "@@@"
     ]
   ],
 
@@ -482,28 +477,159 @@ var test2 = {
   "farmeTime": 600,
   "sprites": [
     [
-    "   ",
-    " _ ",
-    "   "
+    "---"
     ],
     [
-    "   ",
-    " - ",
-    "   "
+    " ",
+    "---"
+    ],
+    [
+    " ",
+    " ",
+    "---"
     ]
   ],
 
   "colorPatterns": [
     [
-    "bbb",
-    "bbb",
-    "bbb"
+    "bbbbb",
+    "bbbbb",
+    "bbbbb",
+    "bbbbb",
+    "bbbbb"
     ]
   ],
 
   "colorPresets": {
     "g": "#3f3",
     "b": "#33f"
+  },
+
+  "colorDefault": "#ddd"
+};
+
+var pumpkin = {
+  "farmeTime": 600,
+  "sprites": [
+    [
+    " ",
+    " ",
+    "                              /\\",
+    "                             / /",
+    "                         ___( (___",
+    "                      .-'(    `' )`-.",
+    "                    ./    `'''''''    \\.",
+    "                   /                   \\",
+    "                  /                     \\",
+    "                 |       /\\      /\\      |",
+    "                |       /O_\\    /O_\\      |",
+    "                |            /\\           |",
+    "                |            ~~           |",
+    "                 |      \\.        ./     |",
+    "                  \\      \\\\/\\/\\/\\//     /",
+    "                   \\      \\/\\/\\/\\/     /",
+    "                    `\\               /'",
+    "                      `--_________--'",
+    " ",
+    " "
+    ],
+
+    [
+    " ",
+    " ",
+    "                              /\\",
+    "                             / /",
+    "                         ___( (___",
+    "                      .-'(    `' )`-.",
+    "                    ./    `'''''''    \\.",
+    "                   /                   \\",
+    "                  /                     \\",
+    "                 |       /\\      /\\      |",
+    "                |       /_o\\    /_o\\      |",
+    "                |            /\\           |",
+    "                |            ~~           |",
+    "                 |      \\.        ./     |",
+    "                  \\      \\\\/\\/\\/\\//     /",
+    "                   \\      \\/\\/\\/\\/     /",
+    "                    `\\               /'",
+    "                      `--_________--'",
+    " ",
+    " "
+    ],
+    [
+    " ",
+    " ",
+    "                              /\\",
+    "                             / /",
+    "                         ___( (___",
+    "                      .-'(    `' )`-.",
+    "                    ./    `'''''''    \\.",
+    "                   /                   \\",
+    "                  /                     \\",
+    "                 |       /\\      /\\      |",
+    "                |       /O_\\    /O_\\      |",
+    "                |            /\\           |",
+    "                |            ~~           |",
+    "                 |      \\.        ./     |",
+    "                  \\      \\\\/\\/\\/\\//     /",
+    "                   \\      \\/\\/\\/\\/     /",
+    "                    `\\               /'",
+    "                      `--_________--'",
+    " ",
+    " "
+    ],
+
+    [
+    " ",
+    " ",
+    "                              /\\",
+    "                             / /",
+    "                         ___( (___",
+    "                      .-'(    `' )`-.",
+    "                    ./    `'''''''    \\.",
+    "                   /                   \\",
+    "                  /     /\\        /\\    \\",
+    "                 |     /  \\      /  \\    |",
+    "                |     /  * \\    / *  \\    |",
+    "                |            /\\           |",
+    "                |            ~~           |",
+    "                 |      \\.        ./     |",
+    "                  \\      \\\\/\\/\\/\\//     /",
+    "                   \\      \\/\\/\\/\\/     /",
+    "                    `\\               /'",
+    "                      `--_________--'",
+    " ",
+    " "
+    ]
+  ],
+
+  "colorPatterns": [
+    [
+    " ",
+    " ",
+    "                             ggg",
+    "                             ggg",
+    "                         gggggggggg",
+    "                      ooogggggggggooo",
+    "                    oo    gggggggg    oo",
+    "                   o                   o",
+    "                  o     rrr      rrr    o",
+    "                 o     rrrrr    rrrrr    o",
+    "                o     rrrrrrr  rrrrrrr    o",
+    "                o            rr           o",
+    "                o            rr           o",
+    "                 o      rr        rrr    oo",
+    "                  o      rrrrrrrrrr    ooo",
+    "                   o      rrrrrrrr     oo",
+    "                    oo               oo",
+    "                      oooooooooooooooo"
+    ]
+  ],
+
+  "colorPresets": {
+    "g": "#3f3",
+    "o": "#f52",
+    "r": "#b71c1c"
   },
 
   "colorDefault": "#ddd"
@@ -521,12 +647,12 @@ var test2 = {
 function drawAnimation(spriteSet, status) {
   var frameTime = spriteSet.farmeTime;
   var spriteName = spriteSet;
+    var frame_arr=[];
   //var sprites = spriteName.sprites;
 
   setInterval(function() {drawFrame(spriteName, status)}, frameTime);
 
     function drawFrame(spriteName, status) {
-    var frame_arr=[];
     if (status != "add")
       $(".console").html("");
 
@@ -618,85 +744,118 @@ function drawAnimation2(spriteSets, frameTime) {
     frameSets[0] = spriteSets;
   }
 
-
-  //var frameTime = frameSets.farmeTime;
-  //var spriteName = frameSets;
-  //var sprites = spriteName.sprites;
-
   setInterval(function() {drawFrame(frameSets)}, frameTime);
-  //drawFrame(frameSets);
 
-  function drawFrame(spriteList) {
+  function drawFrame(spriteSets) {
+
+    spriteList = spriteSets;
     var frame_arr=[];
+    var theSprite;
 
     // for each spriteSet
     for (sprite in spriteList) {
-      console.log(sprite);
+      //console.log(sprite);
+      if (spriteList[sprite].oSprite != undefined) {
+        theSprite = spriteList[sprite].oSprite;
+      } else {
+        theSprite = spriteList[sprite];
+      }
 /**/
-      if (sprite == 0)
-        $(".console").html("");
+      // Y Shift
+      var yShift=0;
+      if (spriteList[sprite].yShift != undefined &&
+          spriteList[sprite].yShift > 0) {
+        yShift = spriteList[sprite].yShift;
+        for (var i = 0; i < yShift; i++) {
+          if (frame_arr[i] == undefined) {
+            frame_arr[i] = [];
+            frame_arr[i].push("<span><br></span>");
+          }
+        }
+      }
 
-      var objSprites = spriteList[sprite].sprites;
       // get frame number
       var frameNum;
-      if (spriteList[sprite].frameNum != undefined) {
-        frameNum = spriteList[sprite].frameNum;
+      if (theSprite.frameNum != undefined) {
+        frameNum = theSprite.frameNum;
       } else {
         frameNum = 0;
       }
 
-      var theFrame = spriteList[sprite].sprites[frameNum];
+      var theFrame = theSprite.sprites[frameNum];
+
+      // strings
       for (string in theFrame) {
         var s_length = theFrame[string].length;
-        if ( frame_arr[string] == undefined)
-         frame_arr[string] = [];
+        var fa_i = Number(string + yShift);
+        if ( frame_arr[fa_i] == undefined)
+         frame_arr[fa_i] = [];
+
+        // X Shift
+        var xShift=0;
+        if (spriteList[sprite].xShift != undefined &&
+            spriteList[sprite].xShift > 0) {
+          xShift = spriteList[sprite].xShift;
+          for (var i = 0; i < xShift; i++) {
+            if (frame_arr[fa_i][i] == undefined) {
+             frame_arr[fa_i][i] = "<span> </span>";
+            }
+          }
+        }
+       // chars
         for (char in theFrame[string]) {
 
-          var ch = theFrame[string][char]
+          var ch = theFrame[string][char];
+          var fa_j = Number(char + xShift);
 
           // color pattern ?
-          if (theFrame[string].length>0) {
+          if (s_length > 0) {
             // color not null ?
             var clr_ch;
-            if (spriteList[sprite].colorPatterns[frameNum] != undefined &&
-              spriteList[sprite].colorPatterns[frameNum].length > 0) {
-              clr_ch = spriteList[sprite].colorPatterns[frameNum][string][char];
+            if (theSprite.colorPatterns[frameNum] != undefined &&
+                theSprite.colorPatterns[frameNum].length > 0 &&
+                theSprite.colorPatterns[frameNum][string] != undefined &&
+                theSprite.colorPatterns[frameNum][string][char] != undefined) {
+              clr_ch = theSprite.colorPatterns[frameNum][string][char];
             } else {
-              if ( spriteList[sprite].colorPatterns[0] != undefined &&
-                spriteList[sprite].colorPatterns[0].length > 0) {
-                clr_ch = spriteList[sprite].colorPatterns[0][string][char];
+              if ( theSprite.colorPatterns[0] != undefined &&
+                theSprite.colorPatterns[0].length > 0 &&
+                theSprite.colorPatterns[0][string] != undefined
+                ) {
+                clr_ch = theSprite.colorPatterns[0][string][char];
               } else {
-                clr_ch = spriteList[sprite].colorDefault;
+                clr_ch = theSprite.colorDefault;
               }
             }
 
+            // what color?
             if (clr_ch != " ") {
-              var clr = spriteList[sprite].colorPresets[clr_ch];
+              var clr = theSprite.colorPresets[clr_ch];
               var s_clr =  " style='color: "+clr+"'";
             } else {
               var s_clr='';
             }
 
+            // add simbol
             if (sprite == 0){
-              //$(".console").append("<span "+s_clr+">"+ch+"</span>");
-              frame_arr[string].push("<span "+s_clr+">"+ch+"</span>");
+              frame_arr[fa_i][fa_j] = "<span "+s_clr+">"+ch+"</span>";
             } else {
-              if (ch!=" ") {
-                //$(".console").find("span").eq(char*string).html(ch).css("color", clr);
+              if (ch != " " ||
+                frame_arr[string][char] == "<br>") {
                 while (frame_arr.length < string) {
                   frame_arr.push([]);
                 }
                 while(frame_arr[string].length < char) {
                   frame_arr[string].push("<span></span>");
                 }
-                frame_arr[string][char] = "<span "+s_clr+">"+ch+"</span>";
+                frame_arr[fa_i][fa_j] = "<span "+s_clr+">"+ch+"</span>";
               }
-
             }
 
-            if (char == s_length-1 && sprite == 0) {
-              //$(".console").append("<br>");
-              frame_arr[string].push("<br>");
+            // add BR if need
+            s_length = theFrame[string].length;
+            if (char == s_length-1 && frame_arr[fa_i][frame_arr[fa_i].length-1] != "<br>") {
+              frame_arr[fa_i].push("<br>");
             }
           }
         }
@@ -705,19 +864,19 @@ function drawAnimation2(spriteSets, frameTime) {
 
 
       // next frame
-      if (frameNum < spriteList[sprite].sprites.length - 1) {
+      if (frameNum < theSprite.sprites.length - 1) {
         frameNum++;
       } else {
         frameNum = 0;
       }
-      spriteList[sprite].frameNum = frameNum;
+      theSprite.frameNum = frameNum;
       /**/
     }
     var out = "";
     frame_arr.forEach (function(item, i, frame_arr) {
       out+=item.join("");
     });
-    $(".console").append(out);
+    $(".console").html(out);
   }
 
 }
@@ -725,8 +884,32 @@ function drawAnimation2(spriteSets, frameTime) {
 
 
  $(".console").mouseover(function () {
-   drawAnimation2([test1, test2], 1000);
-   //drawAnimation(test2, "add");
+   //drawAnimation2([test1, test2], 1000);
+   /**/
+   drawAnimation2([
+    {
+      oSprite: test1,
+      xShift: 3,
+      yShift: 6
+    },
+    {
+      oSprite: test2,
+      xShift: 3,
+      yShift: 6
+    }
+    ], 800);
+   /**/
+   /*/
+   drawAnimation2([
+    {
+      oSprite: test2,
+      xShift: 5,
+      yShift: 4
+    }
+    ], 400);
+   /**/
+   //drawAnimation2([boiler, boo], 400);
+   //drawAnimation2(pumpkin, 400);
  });
 
 });
