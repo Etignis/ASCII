@@ -2,6 +2,7 @@ function exist(elem) {
   (elem.length>0) ? true : false;
 }
 $(window).load(function(){
+  var fAnim = false;
 
   var boiler = {
   "farmeTime": 500,
@@ -866,7 +867,8 @@ function drawAnimation2(spriteSets, frameTime) {
       }
 /**/
       // repeat Y
-      for (var yRi = 0; yRi <spriteList[sprite].yRepeat; yRi++) {
+      var tmp_yR = spriteList[sprite].yRepeat || 1;
+      for (var yRi = 0; yRi < tmp_yR; yRi++) {
 
         // Y Shift
         var yShift=0;
@@ -1016,9 +1018,12 @@ function drawAnimation2(spriteSets, frameTime) {
     }
     ], 400);
    /**/
-   drawAnimation2([{oSprite: rain, yRepeat: 3}], 400);
+  // drawAnimation2([{oSprite: rain, yRepeat: 3}], 400);
    //drawAnimation2([boiler, boo], 400);
-   //drawAnimation2(pumpkin, 400);
+   if (!fAnim) {
+    drawAnimation2([{oSprite: pumpkin}], 400);
+    fAnim = true;
+   }
  });
 
 });
