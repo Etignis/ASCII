@@ -635,52 +635,52 @@ var pumpkin = {
 
   "colorDefault": "#ddd"
 };
-/*
-var rain = {
+/**/
+var rain2 = {
   "farmeTime": 600,
   "sprites": [
     [
-      "      /     ",
+      "     /     /",
       "            ",
-      "           /",
-      "   /        ",
       "            ",
-      "        /   "
+      " /      /   ",
+      "            ",
+      "            "
     ],
     [
       "            ",
-      "     /      ",
+      "   /      / ",
       "            ",
-      "          / ",
-      "  /         ",
+      "            ",
+      "/     /     ",
       "            "
     ],
     [
       "            ",
       "            ",
-      "    /       ",
+      "  /      /  ",
       "            ",
-      "         /  ",
-      " /          "
+      "            ",
+      "     /     /"
     ]
   ],
 
   "colorPatterns": [
     [
-      "bbbbbbbbbbbb",
-      "cccccccccccc",
-      "bbbbbbbbbbbb",
-      "cccccccccccc",
-      "bbbbbbbbbbbb",
-      "cccccccccccc"
+      "bbbbccccbbbb",
+      "ccccbbbbcccc",
+      "bbbbccccbbbb",
+      "ccccbbbbcccc",
+      "bbbbccccbbbb",
+      "ccccbbbbcccc"
     ],
     [
-      "cccccccccccc",
-      "bbbbbbbbbbbb",
-      "cccccccccccc",
-      "bbbbbbbbbbbb",
-      "cccccccccccc",
-      "bbbbbbbbbbbb"
+      "ccccbbbbcccc",
+      "bbbbccccbbbb",
+      "ccccbbbbbbbb",
+      "bbbbccccbbbb",
+      "ccccbbbbcccc",
+      "bbbbccccbbbb"
     ]
   ],
 
@@ -691,10 +691,9 @@ var rain = {
 
   "colorDefault": "#ddd"
 };
-*/
+/**/
 
 var rain = {
-  "farmeTime": 600,
   "sprites": [
     [
       "  *",
@@ -715,20 +714,20 @@ var rain = {
 
   "colorPatterns": [
     [
-      "bbbbbbbbbbbb",
-      "cccccccccccc",
-      "bbbbbbbbbbbb",
-      "cccccccccccc",
-      "bbbbbbbbbbbb",
-      "cccccccccccc"
+      "bbbbccccbbbb",
+      "ccccbbbbcccc",
+      "bbbbccccbbbb",
+      "ccccbbbbcccc",
+      "bbbbccccbbbb",
+      "ccccbbbbcccc"
     ],
     [
-      "cccccccccccc",
-      "bbbbbbbbbbbb",
-      "cccccccccccc",
-      "bbbbbbbbbbbb",
-      "cccccccccccc",
-      "bbbbbbbbbbbb"
+      "ccccbbbbcccc",
+      "bbbbccccbbbb",
+      "ccccbbbbcccc",
+      "bbbbccccbbbb",
+      "ccccbbbbcccc",
+      "bbbbccccbbbb"
     ]
   ],
 
@@ -911,76 +910,85 @@ function drawAnimation2(spriteSets, frameTime) {
               }
             }
           }
-          // chars
-          for (char in theFrame[string]) {
 
-            var ch = theFrame[string][char];
-            var fa_j = Number(char + xShift);
+          // Repeat X
+          var tmp_xR = spriteList[sprite].xRepeat || 1;
+          for (var xRj = 0; xRj < tmp_xR; xRj++) {
+            // chars
+            for (char in theFrame[string]) {
 
-            // color pattern ?
-            if (s_length > 0) {
-              // color not null ?
-              var clr_ch;
-              if (theSprite.colorPatterns[frameNum] != undefined &&
-                  theSprite.colorPatterns[frameNum].length > 0 &&
-                  theSprite.colorPatterns[frameNum][string] != undefined &&
-                  theSprite.colorPatterns[frameNum][string][char] != undefined) {
-                clr_ch = theSprite.colorPatterns[frameNum][string][char];
-              } else {
-                if ( theSprite.colorPatterns[0] != undefined &&
-                  theSprite.colorPatterns[0].length > 0 &&
-                  theSprite.colorPatterns[0][string] != undefined
-                  ) {
-                  clr_ch = theSprite.colorPatterns[0][string][char];
+              var ch = theFrame[string][char];
+              var fa_j = Number(+char + +xShift + +(xRj * theFrame[string].length));
+
+              // color pattern ?
+              if (s_length > 0) {
+                // color not null ?
+                var clr_ch;
+                if (theSprite.colorPatterns[frameNum] != undefined &&
+                    theSprite.colorPatterns[frameNum].length > 0 &&
+                    theSprite.colorPatterns[frameNum][string] != undefined &&
+                    theSprite.colorPatterns[frameNum][string][char] != undefined) {
+                  clr_ch = theSprite.colorPatterns[frameNum][string][char];
                 } else {
-                  clr_ch = theSprite.colorDefault;
+                  if ( theSprite.colorPatterns[0] != undefined &&
+                    theSprite.colorPatterns[0].length > 0 &&
+                    theSprite.colorPatterns[0][string] != undefined
+                    ) {
+                    clr_ch = theSprite.colorPatterns[0][string][char];
+                  } else {
+                    clr_ch = theSprite.colorDefault;
+                  }
                 }
-              }
 
-              // what color?
-              if (clr_ch != " ") {
-                var clr = theSprite.colorPresets[clr_ch];
-                var s_clr =  " style='color: "+clr+"'";
-              } else {
-                var s_clr='';
-              }
+                // what color?
+                if (clr_ch != " ") {
+                  var clr = theSprite.colorPresets[clr_ch];
+                  var s_clr =  " style='color: "+clr+"'";
+                } else {
+                  var s_clr='';
+                }
 
-              // add simbol
-              if (sprite == 0){
-                frame_arr[fa_i][fa_j] = "<span "+s_clr+">"+ch+"</span>";
-              } else {
-                if (ch != " " ||
-                  frame_arr[string][char] == "<br>") {
-                  while (frame_arr.length < string) {
-                    frame_arr.push([]);
-                  }
-                  while(frame_arr[string].length < char) {
-                    frame_arr[string].push("<span></span>");
-                  }
+                // add simbol
+                if (sprite == 0){
                   frame_arr[fa_i][fa_j] = "<span "+s_clr+">"+ch+"</span>";
+                } else {
+                  if (ch != " " ||
+                    frame_arr[string][char] == "<br>") {
+                    while (frame_arr.length < string) {
+                      frame_arr.push([]);
+                    }
+                    while(frame_arr[string].length < char) {
+                      frame_arr[string].push("<span></span>");
+                    }
+                    frame_arr[fa_i][fa_j] = "<span "+s_clr+">"+ch+"</span>";
+                  }
                 }
-              }
 
-              // add BR if need
-              s_length = theFrame[string].length;
-              if (char == s_length-1 && frame_arr[fa_i][frame_arr[fa_i].length-1] != "<br>") {
-                frame_arr[fa_i].push("<br>");
+                // add BR if need
+                /*
+                s_length = theFrame[string].length;
+                if (char == s_length-1 && frame_arr[fa_i][frame_arr[fa_i].length-1] != "<br>") {
+                  frame_arr[fa_i].push("<br>");
+                }
+                */
               }
             }
-          }
-
+          }// repeat x
+          // add BR if need
+          frame_arr[fa_i].push("<br>");
         }//
 
-
-        // next frame
+        /**/
+      }
+      // next frame
         if (frameNum < theSprite.sprites.length - 1) {
-          frameNum++;
+
+            frameNum++;
+
         } else {
           frameNum = 0;
         }
         theSprite.frameNum = frameNum;
-        /**/
-      }
     }
     var out = "";
     frame_arr.forEach (function(item, i, frame_arr) {
@@ -994,6 +1002,7 @@ function drawAnimation2(spriteSets, frameTime) {
 
 
  $(".console").mouseover(function () {
+   if (!fAnim) {
    //drawAnimation2([test1, test2], 1000);
    /*/
    drawAnimation2([
@@ -1018,10 +1027,11 @@ function drawAnimation2(spriteSets, frameTime) {
     }
     ], 400);
    /**/
-  // drawAnimation2([{oSprite: rain, yRepeat: 3}], 400);
+   drawAnimation2([{oSprite: rain2, yRepeat: 6, xRepeat: 6}], 300);
    //drawAnimation2([boiler, boo], 400);
-   if (!fAnim) {
-    drawAnimation2([{oSprite: pumpkin}], 400);
+    //drawAnimation2([{oSprite: pumpkin}], 400);
+
+
     fAnim = true;
    }
  });
