@@ -635,6 +635,51 @@ var rain = {
   "colorDefault": "#ddd"
 };
 
+var pers = {
+  "sprites": [
+    [
+      "  __",
+      " ( ->",
+      " / )\\",
+      "<_/_/",
+      " ' '"
+    ],
+    [
+      "  __",
+      " ( ->",
+      " / )\\",
+      "<_/_/",
+      "  ' "
+    ]
+  ],
+
+  "colorPatterns": [
+    [
+      "bbbbccccbbbb",
+      "ccccbbbbcccc",
+      "bbbbccccbbbb",
+      "ccccbbbbcccc",
+      "bbbbccccbbbb",
+      "ccccbbbbcccc"
+    ],
+    [
+      "ccccbbbbcccc",
+      "bbbbccccbbbb",
+      "ccccbbbbcccc",
+      "bbbbccccbbbb",
+      "ccccbbbbcccc",
+      "bbbbccccbbbb"
+    ]
+  ],
+
+  "colorPresets": {
+    "b": "#229",
+    "c": "#116"
+  },
+
+  "colorDefault": "#ddd"
+};
+
 
 //console.log(example.sprites[0][0]);
 //console.dir(example.colorPresets);
@@ -750,17 +795,15 @@ function drawAnimation2(spriteSets, frameTime) {
 
   function drawFrame(spriteSets) {
     var frame_arr = [];
+    /*
     if (frameArr.length>0) {
-      frame_arr = frameArr;
+      frame_arr = frame_arr.concat(frameArr);
     }
+*/
+    frame_arr = frame_arr.concat(consoleArr);
+    console.dir(frame_arr);
 
-    spriteList = spriteSets;
-
-
-
-    //var frame_arr=[];
-		var frame_arr = consoleArr;
-		console.dir(frame_arr);
+    var spriteList = spriteSets;
 
     var theSprite;
 
@@ -802,7 +845,7 @@ function drawAnimation2(spriteSets, frameTime) {
 
         // strings
         for (string in theFrame) {
-					if(string<consoleArr.length-1) {
+					if(string<consoleArr.length) {
 						var s_length = theFrame[string].length;
 						var fa_i = Number(+string + +yShift + +(theFrame.length * yRi));
 						if ( frame_arr[fa_i] == undefined)
@@ -860,51 +903,27 @@ function drawAnimation2(spriteSets, frameTime) {
 
 										// add simbol
 										frame_arr[fa_i][fa_j] = "<span "+s_clr+" data-ind='"+fa_i+":"+fa_j+"'>"+ch+"</span>";
-												console.dir(frame_arr);
-										/*
-										if (sprite == 0){
-											frame_arr[fa_i][fa_j] = "<span "+s_clr+" data-ind='"+fa_i+":"+fa_j+"'>"+ch+"</span>";
-										} else {
-											if (ch != " " ||
-												frame_arr[string][char] == "<br>") {
-												while (frame_arr.length < string) {
-													frame_arr.push([]);
-												}
-												while(frame_arr[string].length < char) {
-													frame_arr[string].push("<span></span>");
-												}
-												frame_arr[fa_i][fa_j] = "<span "+s_clr+">"+ch+"</span>";
-											}
-										}
-										*/
+                    //frame_arr[1][1] = "<span "+s_clr+" data-ind='"+fa_i+":"+fa_j+"'>"+ch+"</span>";
 
-										// add BR if need
-										/*
-										s_length = theFrame[string].length;
-										if (char == s_length-1 && frame_arr[fa_i][frame_arr[fa_i].length-1] != "<br>") {
-											frame_arr[fa_i].push("<br>");
-										}
-										*/
+                    console.dir(frame_arr);
+                    console.dir(consoleArr);
+
 									}
 								}
 							}
 						}// repeat x
-						// add BR if need
-						//frame_arr[fa_i].push("<br>");
 					}
         }//
 
-        /**/
+
       }
       // next frame
-        if (frameNum < theSprite.sprites.length - 1) {
-
-            frameNum++;
-
-        } else {
-          frameNum = 0;
-        }
-        theSprite.frameNum = frameNum;
+      if (frameNum < theSprite.sprites.length - 1) {
+          frameNum++;
+      } else {
+        frameNum = 0;
+      }
+      theSprite.frameNum = frameNum;
     }
     var out = "";
     frame_arr.forEach (function(item, i, frame_arr) {
@@ -917,13 +936,13 @@ function drawAnimation2(spriteSets, frameTime) {
 
 
 function setConsole(data) {
-  var stringArr = [];
+  var stringArr="";
   for (var i = 0; i<data.cWidth; i++) {
-    stringArr.push("<span></span>");
+    stringArr += "<span> </span>|";
   }
-  stringArr.push("<br>");
+  stringArr += "<br>";
   for (var i = 0; i<data.cHeight; i++) {
-    frameArr.push(stringArr);
+   consoleArr = consoleArr.concat([stringArr.split("|")]);
   }
    //frame_arr=[];
 
@@ -955,16 +974,19 @@ function initConsole(conf) {
 }
 
 
- setConsole({cWidth: 60, cHeight: 15});
+// console settings
+setConsole({cWidth: 30, cHeight: 10});
 
 $(".console").mouseover(function () {
    if (!fAnim) {
 
+/*
     initConsole({
       "width": 3,
       "height": 3
     });
 
+*/
    //drawAnimation2([test1, test2], 1000);
    /*/
    drawAnimation2([
@@ -993,7 +1015,7 @@ $(".console").mouseover(function () {
    //drawAnimation2([{oSprite: rain2, yRepeat: 6, xRepeat: 6, yShift: 2, xShift: 3}], 300);
 
    //drawAnimation2([{oSprite: rain, yRepeat: 1, xRepeat: 1}], 300);
-    drawAnimation2([{oSprite: rain}], 300);
+    drawAnimation2([{oSprite: pers, yShift: 5}], 300);
 
    //drawAnimation2([boiler, boo], 400);
     //drawAnimation2([{oSprite: pumpkin}], 400);
