@@ -3,12 +3,12 @@ function exist(elem) {
 }
 $(window).load(function(){
   var fAnim = false;
-<<<<<<< HEAD
+
   var nMaintTimer;
   var frameArr=[];
-=======
+
 	var consoleArr = [];
->>>>>>> origin/master
+
 
   var boiler = {
   "farmeTime": 500,
@@ -640,10 +640,6 @@ var rain = {
 //console.dir(example.colorPresets);
 
 
-
-
-
-
 function drawAnimation(spriteSet, status) {
   var frameTime = spriteSet.farmeTime;
   var spriteName = spriteSet;
@@ -759,13 +755,13 @@ function drawAnimation2(spriteSets, frameTime) {
     }
 
     spriteList = spriteSets;
-<<<<<<< HEAD
 
-=======
+
+
     //var frame_arr=[];
 		var frame_arr = consoleArr;
 		console.dir(frame_arr);
->>>>>>> origin/master
+
     var theSprite;
 
     // for each spriteSet
@@ -919,7 +915,7 @@ function drawAnimation2(spriteSets, frameTime) {
 
 }
 
-<<<<<<< HEAD
+
 function setConsole(data) {
   var stringArr = [];
   for (var i = 0; i<data.cWidth; i++) {
@@ -929,45 +925,46 @@ function setConsole(data) {
   for (var i = 0; i<data.cHeight; i++) {
     frameArr.push(stringArr);
   }
-=======
-function initConsole(conf) {
-	var cW=0;
-	var cH=0;
-	var arrString = [];
-	
-	if (conf.width != undefined) {
-		cW=conf.width;
-	} else {
-		cW=10;
-	}
-	if (conf.height != undefined) {
-		cH=conf.height;
-	} else {
-		cH=10;
-	}	
-	
-	for( var i=0; i<cW; i++) {
-		arrString.push("<span></span>");
-	}
-	arrString.push("<br>");
-	for( var i=0; i<cH; i++) {
-		consoleArr.push(arrString);
-	}
-}
->>>>>>> origin/master
-
    //frame_arr=[];
 
 }
 
+function initConsole(conf) {
+  var cW=0;
+  var cH=0;
+  var arrString = [];
+
+  if (conf.width != undefined) {
+    cW=conf.width;
+  } else {
+    cW=10;
+  }
+  if (conf.height != undefined) {
+    cH=conf.height;
+  } else {
+    cH=10;
+  }
+
+  for( var i=0; i<cW; i++) {
+    arrString.push("<span></span>");
+  }
+  arrString.push("<br>");
+  for( var i=0; i<cH; i++) {
+    consoleArr.push(arrString);
+  }
+}
+
+
  setConsole({cWidth: 60, cHeight: 15});
 
- $(".console").mouseover(function () {
+$(".console").mouseover(function () {
    if (!fAnim) {
-		 initConsole({
-			 "width": 3,
-			 "height": 3
-		 });
+
+    initConsole({
+      "width": 3,
+      "height": 3
+    });
+
    //drawAnimation2([test1, test2], 1000);
    /*/
    drawAnimation2([
@@ -992,20 +989,20 @@ function initConsole(conf) {
     }
     ], 400);
    /**/
-<<<<<<< HEAD
-   drawAnimation2([{oSprite: rain2, yRepeat: 6, xRepeat: 6, yShift: 2, xShift: 3}], 300);
-=======
+
+   //drawAnimation2([{oSprite: rain2, yRepeat: 6, xRepeat: 6, yShift: 2, xShift: 3}], 300);
+
    //drawAnimation2([{oSprite: rain, yRepeat: 1, xRepeat: 1}], 300);
-   drawAnimation2([{oSprite: rain}], 300);
->>>>>>> origin/master
+    drawAnimation2([{oSprite: rain}], 300);
+
    //drawAnimation2([boiler, boo], 400);
     //drawAnimation2([{oSprite: pumpkin}], 400);
 
 
     fAnim = true;
-   }
- });
 
+    }
 
+  });
 
 });
