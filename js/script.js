@@ -635,6 +635,36 @@ var rain = {
   "colorDefault": "#ddd"
 };
 
+var cactus = {
+  "sprites": [
+    [
+      "  @  ",
+      "@ @  ",
+      "@ @ @",
+      " @@@ ",
+      "  @   "
+    ]
+  ],
+
+  "colorPatterns": [
+    [
+      "ggggg",
+      "ggggg",
+      "ggggg",
+      "ggggg",
+      "ggggg"
+    ]
+  ],
+
+  "colorPresets": {
+    "d": "#090",
+    "m": "#1e1",
+    "l": "#1e3"
+  },
+  "frameRate": 2,
+  "colorDefault": "#1e3"
+};
+
 var ground = {
   "sprites": [
     [
