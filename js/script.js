@@ -635,6 +635,48 @@ var rain = {
   "colorDefault": "#ddd"
 };
 
+var ground = {
+  "sprites": [
+    [
+      "==-=--"
+    ],
+    [
+      "=-=--="
+    ],
+    [
+      "-=--=="
+    ],
+    [
+      "=--==-"
+    ],
+    [
+      "--==-="
+    ],
+    [
+      "-==-=-"
+    ]
+  ],
+
+  "colorPatterns": [
+    [
+      "dmldml"
+    ],
+    [
+      "mldmld"
+    ],
+    [
+      "ldmldm"
+    ]
+  ],
+
+  "colorPresets": {
+    "d": "#090",
+    "m": "#1e1",
+    "l": "#1e3"
+  },
+  "frameRate": 2,
+  "colorDefault": "#1e3"
+};
 var pers = {
   "sprites": [
     [
@@ -642,39 +684,45 @@ var pers = {
       " ( ->",
       " / )\\",
       "<_/_/",
-      " ' '"
+      " / \\"
     ],
     [
       "  __",
       " ( ->",
       " / )\\",
       "<_/_/",
-      "  ' "
+      "  | "
     ]
   ],
-
+  "frameRate": 2,
   "colorPatterns": [
     [
-      "bbbbccccbbbb",
-      "ccccbbbbcccc",
-      "bbbbccccbbbb",
-      "ccccbbbbcccc",
-      "bbbbccccbbbb",
-      "ccccbbbbcccc"
+      "bbbbb",
+      " b gy",
+      " b bb",
+      "bbbbb",
+      " yyy"
     ],
     [
-      "ccccbbbbcccc",
-      "bbbbccccbbbb",
-      "ccccbbbbcccc",
-      "bbbbccccbbbb",
-      "ccccbbbbcccc",
-      "bbbbccccbbbb"
+      "bbbbb",
+      " b gy",
+      " b bb",
+      "bbbbb",
+      " yyy"
+    ],
+    [
+      "bbbbb",
+      " bbby",
+      " b bb",
+      "bbbbb",
+      " yyy"
     ]
   ],
 
   "colorPresets": {
     "b": "#229",
-    "c": "#116"
+    "y": "#972",
+    "g": "292"
   },
 
   "colorDefault": "#ddd"
@@ -683,99 +731,6 @@ var pers = {
 
 //console.log(example.sprites[0][0]);
 //console.dir(example.colorPresets);
-
-
-function drawAnimation(spriteSet, status) {
-  var frameTime = spriteSet.farmeTime;
-  var spriteName = spriteSet;
-    var frame_arr=[];
-  //var sprites = spriteName.sprites;
-
-  setInterval(function() {drawFrame(spriteName, status)}, frameTime);
-
-    function drawFrame(spriteName, status) {
-    if (status != "add")
-      $(".console").html("");
-
-    var sprites = spriteName.sprites;
-    // get frame number
-    var frameNum;
-    if (spriteName.frameNum != undefined) {
-      frameNum = spriteName.frameNum;
-    } else {
-      frameNum = 0;
-    }
-
-    var theFrame = spriteName.sprites[frameNum];
-    for (string in theFrame) {
-      var s_length = theFrame[string].length;
-      frame_arr[string] = [];
-      for (char in theFrame[string]) {
-
-        var ch = theFrame[string][char]
-
-        // color pattern ?
-        if (theFrame[string].length>0) {
-          // color not null ?
-          var clr_ch;
-          if (spriteName.colorPatterns[frameNum] != undefined &&
-            spriteName.colorPatterns[frameNum].length > 0) {
-            clr_ch = spriteName.colorPatterns[frameNum][string][char];
-          } else {
-            if ( spriteName.colorPatterns[0] != undefined &&
-              spriteName.colorPatterns[0].length > 0) {
-              clr_ch = spriteName.colorPatterns[0][string][char];
-            } else {
-              clr_ch = spriteName.colorDefault;
-            }
-          }
-
-          if (clr_ch != " ") {
-            var clr = spriteName.colorPresets[clr_ch];
-            var s_clr =  " style='color: "+clr+"'";
-          } else {
-            var s_clr='';
-          }
-
-          if (status != "add"){
-            //$(".console").append("<span "+s_clr+">"+ch+"</span>");
-            frame_arr[string].push("<span "+s_clr+">"+ch+"</span>");
-          } else {
-            if (!ch==" ") {
-              //$(".console").find("span").eq(char*string).html(ch).css("color", clr);
-              while (frame_arr.length < string) {
-                frame_arr.push([]);
-              }
-              while(frame_arr[string].length < char) {
-                frame_arr[string].push("<span></span>");
-              }
-              frame_arr[string][char] = "<span "+s_clr+">"+ch+"</span>";
-            }
-
-          }
-
-          if (char == s_length-1 && status != "add")
-            //$(".console").append("<br>");
-          frame_arr[string].push("<br>");
-        }
-      }
-
-    }//
-
-    var out = "";
-    frame_arr.forEach (function(item, i, frame_arr) {
-      out+=item.join("");
-    });
-    $(".console").append(out);
-    // next frame
-    if (frameNum < spriteName.sprites.length - 1) {
-      frameNum++;
-    } else {
-      frameNum = 0;
-    }
-    spriteName.frameNum = frameNum;
-  }
-  }
 
 function drawAnimation2(spriteSets, frameTime) {
   var frameSets = [];
@@ -793,15 +748,23 @@ function drawAnimation2(spriteSets, frameTime) {
     nMaintTimer = setInterval(function() {drawFrame(frameSets)}, frameTime);
   }
 
+
+}
+function drawScene (spriteSets, frameTime) {
+  var frameSets = [];
+  if (spriteSets instanceof Array) {
+    frameSets = spriteSets;
+  } else {
+    frameSets[0] = spriteSets;
+  }
+  clearConsole();
+  drawFrame(frameSets);
+}
   function drawFrame(spriteSets) {
     var frame_arr = [];
-    /*
-    if (frameArr.length>0) {
-      frame_arr = frame_arr.concat(frameArr);
-    }
-*/
+
     frame_arr = frame_arr.concat(consoleArr);
-    console.dir(frame_arr);
+    //console.dir(frame_arr);
 
     var spriteList = spriteSets;
 
@@ -815,7 +778,7 @@ function drawAnimation2(spriteSets, frameTime) {
       } else {
         theSprite = spriteList[sprite];
       }
-/**/
+
       // repeat Y
       var tmp_yR = spriteList[sprite].yRepeat || 1;
       for (var yRi = 0; yRi < tmp_yR; yRi++) {
@@ -834,95 +797,106 @@ function drawAnimation2(spriteSets, frameTime) {
         }
 
         // get frame number
-        var frameNum;
+        var frameNum, frameRateNum;
+
         if (theSprite.frameNum != undefined) {
           frameNum = theSprite.frameNum;
         } else {
           frameNum = 0;
+        }
+        if (theSprite.frameRateNum != undefined) {
+          frameRateNum = theSprite.frameRateNum;
+        } else {
+          frameRateNum = 1;
         }
 
         var theFrame = theSprite.sprites[frameNum];
 
         // strings
         for (string in theFrame) {
-					if(string<consoleArr.length) {
-						var s_length = theFrame[string].length;
-						var fa_i = Number(+string + +yShift + +(theFrame.length * yRi));
-						if ( frame_arr[fa_i] == undefined)
-						 frame_arr[fa_i] = [];
+          if(string<consoleArr.length) {
+            var s_length = theFrame[string].length;
+            var fa_i = Number(+string + +yShift + +(theFrame.length * yRi));
+            if ( frame_arr[fa_i] == undefined)
+             frame_arr[fa_i] = [];
 
-						// X Shift
-						var xShift=0;
-						if (spriteList[sprite].xShift != undefined &&
-								spriteList[sprite].xShift > 0) {
-							xShift = spriteList[sprite].xShift;
-							for (var i = 0; i < xShift; i++) {
-								if (frame_arr[fa_i][i] == undefined) {
-								 frame_arr[fa_i][i] = "<span> </span>";
-								}
-							}
-						}
+            // X Shift
+            var xShift=0;
+            if (spriteList[sprite].xShift != undefined &&
+                spriteList[sprite].xShift != 0) {
+              xShift = spriteList[sprite].xShift;
+              for (var i = 0; i < xShift; i++) {
+                if (frame_arr[fa_i][i] == undefined) {
+                 frame_arr[fa_i][i] = "<span> </span>";
+                }
+              }
+            }
 
-						// Repeat X
-						var tmp_xR = spriteList[sprite].xRepeat || 1;
-						for (var xRj = 0; xRj < tmp_xR; xRj++) {
-							// chars
-							for (char in theFrame[string]) {
-								if (char<consoleArr[0].length){
+            // Repeat X
+            var tmp_xR = spriteList[sprite].xRepeat || 1;
+            for (var xRj = 0; xRj < tmp_xR; xRj++) {
+              // chars
+              for (char in theFrame[string]) {
+                if (char<consoleArr[0].length){
 
-									var ch = theFrame[string][char];
-									var fa_j = Number(+char + +xShift + +(xRj * theFrame[string].length));
+                  var ch = theFrame[string][char];
+                  var fa_j = Number(+char + +xShift + +(xRj * theFrame[string].length));
 
-									// color pattern ?
-									if (s_length > 0) {
-										// color not null ?
-										var clr_ch;
-										if (theSprite.colorPatterns[frameNum] != undefined &&
-												theSprite.colorPatterns[frameNum].length > 0 &&
-												theSprite.colorPatterns[frameNum][string] != undefined &&
-												theSprite.colorPatterns[frameNum][string][char] != undefined) {
-											clr_ch = theSprite.colorPatterns[frameNum][string][char];
-										} else {
-											if ( theSprite.colorPatterns[0] != undefined &&
-												theSprite.colorPatterns[0].length > 0 &&
-												theSprite.colorPatterns[0][string] != undefined
-												) {
-												clr_ch = theSprite.colorPatterns[0][string][char];
-											} else {
-												clr_ch = theSprite.colorDefault;
-											}
-										}
+                  // color pattern ?
+                  if (s_length > 0) {
+                    // color not null ?
+                    var clr_ch;
+                    if (theSprite.colorPatterns[frameNum] != undefined &&
+                        theSprite.colorPatterns[frameNum].length > 0 &&
+                        theSprite.colorPatterns[frameNum][string] != undefined &&
+                        theSprite.colorPatterns[frameNum][string][char] != undefined) {
+                      clr_ch = theSprite.colorPatterns[frameNum][string][char];
+                    } else {
+                      if ( theSprite.colorPatterns[0] != undefined &&
+                        theSprite.colorPatterns[0].length > 0 &&
+                        theSprite.colorPatterns[0][string] != undefined
+                        ) {
+                        clr_ch = theSprite.colorPatterns[0][string][char];
+                      } else {
+                        clr_ch = theSprite.colorDefault;
+                      }
+                    }
 
-										// what color?
-										if (clr_ch != " ") {
-											var clr = theSprite.colorPresets[clr_ch];
-											var s_clr =  " style='color: "+clr+"'";
-										} else {
-											var s_clr='';
-										}
+                    // what color?
+                    if (clr_ch != " ") {
+                      var clr = theSprite.colorPresets[clr_ch];
+                      var s_clr =  " style='color: "+clr+"'";
+                    } else {
+                      var s_clr='';
+                    }
 
-										// add simbol
-										frame_arr[fa_i][fa_j] = "<span "+s_clr+" data-ind='"+fa_i+":"+fa_j+"'>"+ch+"</span>";
-                    //frame_arr[1][1] = "<span "+s_clr+" data-ind='"+fa_i+":"+fa_j+"'>"+ch+"</span>";
+                    // add simbol
+                    frame_arr[fa_i][fa_j] = "<span "+s_clr+" data-ind='"+fa_i+":"+fa_j+"'>"+ch+"</span>";
 
-                    console.dir(frame_arr);
-                    console.dir(consoleArr);
+                    //console.dir(frame_arr);
+                    //console.dir(consoleArr);
 
-									}
-								}
-							}
-						}// repeat x
-					}
+                  }
+                }
+              }
+            }// repeat x
+          }
         }//
 
 
       }
       // next frame
-      if (frameNum < theSprite.sprites.length - 1) {
-          frameNum++;
+      if (frameRateNum == undefined || frameRateNum > theSprite.frameRate){
+        if (frameNum < theSprite.sprites.length - 1) {
+            frameNum++;
+        } else {
+          frameNum = 0;
+        }
+        frameRateNum = 1;
       } else {
-        frameNum = 0;
+        frameRateNum++;
       }
+      theSprite.frameRateNum = frameRateNum;
       theSprite.frameNum = frameNum;
     }
     var out = "";
@@ -931,8 +905,6 @@ function drawAnimation2(spriteSets, frameTime) {
     });
     $(".console").html(out);
   }
-
-}
 
 
 function setConsole(data) {
@@ -945,9 +917,16 @@ function setConsole(data) {
    consoleArr = consoleArr.concat([stringArr.split("|")]);
   }
    //frame_arr=[];
+    //console.dir(consoleArr);
 
 }
-
+function clearConsole() {
+  for (var i = 0; i<consoleArr.length; i++)
+    for (var j=0; j<consoleArr[i].length-1; j++){
+      consoleArr[i][j] = "<span> </span>";
+    }
+}
+/*
 function initConsole(conf) {
   var cW=0;
   var cH=0;
@@ -972,59 +951,87 @@ function initConsole(conf) {
     consoleArr.push(arrString);
   }
 }
-
+*/
 
 // console settings
-setConsole({cWidth: 30, cHeight: 10});
+setConsole({cWidth: 70, cHeight: 10});
 
 $(".console").mouseover(function () {
    if (!fAnim) {
-
-/*
-    initConsole({
-      "width": 3,
-      "height": 3
-    });
-
-*/
-   //drawAnimation2([test1, test2], 1000);
-   /*/
-   drawAnimation2([
-    {
-      oSprite: test1,
-      xShift: 3,
-      yShift: 6
-    },
-    {
-      oSprite: test2,
-      xShift: 3,
-      yShift: 6
-    }
-    ], 800);
-   /**/
-   /*/
-   drawAnimation2([
-    {
-      oSprite: test2,
-      xShift: 5,
-      yShift: 4
-    }
-    ], 400);
-   /**/
-
-   //drawAnimation2([{oSprite: rain2, yRepeat: 6, xRepeat: 6, yShift: 2, xShift: 3}], 300);
-
-   //drawAnimation2([{oSprite: rain, yRepeat: 1, xRepeat: 1}], 300);
-    drawAnimation2([{oSprite: pers, yShift: 5}], 300);
-
-   //drawAnimation2([boiler, boo], 400);
-    //drawAnimation2([{oSprite: pumpkin}], 400);
-
 
     fAnim = true;
 
     }
 
   });
+var f = {};
+f.key={};
+f.key.queue=[];
+
+f.frames={};
+f.frames.spf=2;
+f.frames.curStep=1;
+
+f.pers = {};
+f.pers.jump = {}
+f.pers.jump.flag = false;
+f.pers.jump.num = 0;
+
+f.scene = {};
+f.scene.ground = {};
+f.scene.ground.width = 30;
+f.scene.ground.i = 0;
+
+
+var y_shift = 0;
+var mainLoop = setInterval(
+  function () {
+    // get key
+    f.key.cur = f.key.queue.shift();
+    // is space
+    if (f.key.cur == 'space') {
+      //debugger;
+      f.pers.jump.flag = true;
+    }
+
+    // create jump
+    if (f.pers.jump.flag){
+      f.pers.jump.num++;
+      if(f.pers.jump.num>4)
+        f.pers.jump.flag=false;
+    } else {
+      if(f.pers.jump.num>0)
+        f.pers.jump.num--
+    }
+
+    // move ground
+    f.scene.ground.i++;
+    if (f.scene.ground.i > f.scene.ground.width) {
+      f.scene.ground.i = 0;
+    }
+
+    // if time to render frame
+    if (f.frames.curStep == f.frames.spf)  {
+      drawScene([
+        {oSprite: ground, yShift: 10, xRepeat: 7},
+        {oSprite: pers, yShift: 5-f.pers.jump.num, xShift: 5}
+        ]);
+      y_shift = 0;
+    }
+
+    // next step
+    f.frames.curStep++;
+    if (f.frames.curStep > f.frames.spf)
+     f.frames.curStep=1;
+  }, 50);
+
+$('body').keyup(function(eventObject){
+    //Space Enter
+    if(eventObject.which == 32 || eventObject.which == 13) {
+      f.key.queue.push('space');
+    }
+});
+
+//mainLoop();
 
 });
