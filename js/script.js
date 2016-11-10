@@ -726,8 +726,22 @@ var pers = {
     [
       "  __",
       " ( ->",
+      " /  )",
+      "<__//",
+      " / \\"
+    ],
+    [
+      "  __",
+      " ( ->",
       " / )\\",
       "<_/_/",
+      "  | "
+    ],
+    [
+      "  __",
+      " ( ->",
+      " /) \\",
+      "</__/",
       " / \\"
     ],
     [
@@ -745,7 +759,7 @@ var pers = {
       " b gy",
       " b bb",
       "bbbbb",
-      " yyy"
+      " yyo"
     ],
     [
       "bbbbb",
@@ -756,7 +770,14 @@ var pers = {
     ],
     [
       "bbbbb",
-      " bbby",
+      " b gy",
+      "bbbbc",
+      "bbbbc",
+      " oyy"
+    ],
+    [
+      "bbbbb",
+      " b gy",
       " b bb",
       "bbbbb",
       " yyy"
@@ -765,14 +786,62 @@ var pers = {
 
   "colorPresets": {
     "b": "#229",
+    "c": "#44b",
     "y": "#972",
-    "g": "292"
+    "o": "#640",
+    "g": "#292"
   },
 
   "colorDefault": "#ddd",
   "height": 5
 };
 
+var deathStar = {
+  "sprites": [
+    [
+      "        _____",
+      "    ,-~'     '~-.",
+      "  ,^ ___         ^.",
+      " / .^   ^.         \\",
+      "Y  l  o  !          Y",
+      "l_ `.___.'        _,[",
+      "|^~'-----------''~ ^|",
+      "!                   !",
+      " \\                 /",
+      "  ^.             .^",
+      "    '-.._____.,-'"
+    ]
+  ],
+  "frameRate": 2,
+  "colorPatterns": [
+
+  ],
+
+  "colorPresets": {
+    "b": "#77b",
+  },
+
+  "colorDefault": "#444",
+  "height": 11
+};
+
+var stat = {
+  "sprites": [
+    [
+      ""
+    ]
+  ],
+  "frameRate": 2,
+  "colorPatterns": [
+  ],
+
+  "colorPresets": {
+    "b": "#77b",
+  },
+
+  "colorDefault": "#ddd",
+  "height": 5
+};
 var cloud = {
   "sprites": [
     [
@@ -1048,6 +1117,9 @@ f.scene.ground.i = 0;
 f.scene.cloud = {};
 f.scene.cloud.i=0;
 
+f.simb={};
+f.simb.spriteEmpty='№';
+
 
 var y_shift = 0;
 var mainLoop;
@@ -1104,13 +1176,19 @@ function startMainLoop(){
         if(f.scene.cloud.i -15> f.scene.ground.width) {
           f.scene.cloud.i = 0;
         }
+
+        // check stat
+        stat.sprites[0][0]="Jumps: " + f.pers.jump.amount;
 /**/
       drawScene([
+        {oSprite: deathStar, yShift: coord(5, 15, deathStar.height), xShift: 95 -f.scene.cloud.i},
         {oSprite: cloud, yShift: coord(5, 15, cloud.height), xShift: 85 -f.scene.cloud.i},
         {oSprite: cactus, yShift: coord(1, 15, cactus.height), xShift: 95 -f.scene.ground.i},
         {oSprite: cactus2, yShift: coord(1, 15, cactus2.height), xShift: 80 -f.scene.ground.i},
         {oSprite: ground, yShift: coord(0, 15, ground.height), xRepeat: 11, xShift: -f.scene.ground.i},
-        {oSprite: pers, yShift: coord(+1 + +f.pers.jump.num, 15, pers.height), xShift: 5}
+        {oSprite: pers, yShift: coord(+1 + +f.pers.jump.num, 15, pers.height), xShift: 5},
+
+        {oSprite: stat}
         ]);
 /**/
 /*/
@@ -1127,6 +1205,9 @@ function startMainLoop(){
     if (f.frames.curStep > f.frames.spf)
      f.frames.curStep=1;
   }, 50);
+}
+function printStat(){
+
 }
 startMainLoop();
 
