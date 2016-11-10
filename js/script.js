@@ -638,8 +638,8 @@ var rain = {
 var cactus = {
   "sprites": [
     [
-      "  @  ",
-      "@ @  ",
+      "  @ ",
+      "@ @ ",
       "@ @ @",
       " @@@ ",
       "  @   "
@@ -649,53 +649,65 @@ var cactus = {
   "colorPatterns": [
     [
       "ggggg",
-      "ggggg",
-      "ggggg",
-      "ggggg",
+      "ggdgg",
+      "ggggd",
+      "dgdgg",
       "ggggg"
     ]
   ],
 
   "colorPresets": {
-    "d": "#090",
-    "m": "#1e1",
-    "l": "#1e3"
+    "g": "#060",
+    "d": "#150"
   },
   "frameRate": 2,
-  "colorDefault": "#1e3"
+  "colorDefault": "#1e3",
+  "height": 5
 };
-
-var ground = {
+var cactus2 = {
   "sprites": [
     [
-      "==-=--"
-    ],
-    [
-      "=-=--="
-    ],
-    [
-      "-=--=="
-    ],
-    [
-      "=--==-"
-    ],
-    [
-      "--==-="
-    ],
-    [
-      "-==-=-"
+      "  @  ",
+      "@ @ @",
+      " @@@ ",
+      "  @   "
     ]
   ],
 
   "colorPatterns": [
     [
-      "dmldml"
+      "ggdgg",
+      "ggggd",
+      "dgdgg",
+      "ggggg"
+    ]
+  ],
+
+  "colorPresets": {
+    "g": "#060",
+    "d": "#150"
+  },
+  "frameRate": 2,
+  "colorDefault": "#1e3",
+  "height": 4
+};
+
+var ground = {
+  "sprites": [
+    [
+      "==-=--=-=--==-==-=-"
+    ]
+  ],
+
+  "colorPatterns": [
+    [
+      "dmldmldmldmldmldmlm"
     ],
     [
-      "mldmld"
+      "mldmldmldmldmldmldl"
     ],
     [
-      "ldmldm"
+      "ldmldmldmldmldmldmd"
     ]
   ],
 
@@ -705,8 +717,10 @@ var ground = {
     "l": "#1e3"
   },
   "frameRate": 2,
-  "colorDefault": "#1e3"
+  "colorDefault": "#1e3",
+  "height": 1
 };
+
 var pers = {
   "sprites": [
     [
@@ -755,7 +769,37 @@ var pers = {
     "g": "292"
   },
 
-  "colorDefault": "#ddd"
+  "colorDefault": "#ddd",
+  "height": 5
+};
+
+var cloud = {
+  "sprites": [
+    [
+      "    ._ ",
+      " .:(`  )",
+      ":(      ))",
+      "`(    )  ))",
+      "  ` __.:'"
+    ]
+  ],
+  "frameRate": 2,
+  "colorPatterns": [
+    [
+      "bbbbbbbbbb",
+      "bbbbbbbbbb",
+      "bbbbbbbbbb",
+      "bbbbbbbbbbbb",
+      "bbbbbbbbbb"
+    ]
+  ],
+
+  "colorPresets": {
+    "b": "#77b",
+  },
+
+  "colorDefault": "#ddd",
+  "height": 5
 };
 
 
@@ -795,7 +839,7 @@ function drawScene (spriteSets, frameTime) {
 
     frame_arr = frame_arr.concat(consoleArr);
     //console.dir(frame_arr);
-
+    //debugger;
     var spriteList = spriteSets;
 
     var theSprite;
@@ -846,7 +890,7 @@ function drawScene (spriteSets, frameTime) {
         for (string in theFrame) {
           if(string<consoleArr.length) {
             var s_length = theFrame[string].length;
-            var fa_i = Number(+string + +yShift + +(theFrame.length * yRi));
+            var fa_i = Math.min(Number(+string + +yShift + +(theFrame.length * yRi)), consoleArr.length);
             if ( frame_arr[fa_i] == undefined)
              frame_arr[fa_i] = [];
 
@@ -856,8 +900,10 @@ function drawScene (spriteSets, frameTime) {
                 spriteList[sprite].xShift != 0) {
               xShift = spriteList[sprite].xShift;
               for (var i = 0; i < xShift; i++) {
-                if (frame_arr[fa_i][i] == undefined) {
-                 frame_arr[fa_i][i] = "<span> </span>";
+                if (frame_arr[fa_i][i] == undefined &&
+                  fa_i < consoleArr.length &&
+                  i < consoleArr[0].length-1) {
+                 frame_arr[fa_i][i] = "<span>_</span>";
                 }
               }
             }
@@ -870,7 +916,7 @@ function drawScene (spriteSets, frameTime) {
                 if (char<consoleArr[0].length){
 
                   var ch = theFrame[string][char];
-                  var fa_j = Number(+char + +xShift + +(xRj * theFrame[string].length));
+                  var fa_j = Math.min(Number(+char + +xShift + +(xRj * theFrame[string].length)), consoleArr[0].length);
 
                   // color pattern ?
                   if (s_length > 0) {
@@ -901,7 +947,10 @@ function drawScene (spriteSets, frameTime) {
                     }
 
                     // add simbol
-                    frame_arr[fa_i][fa_j] = "<span "+s_clr+" data-ind='"+fa_i+":"+fa_j+"'>"+ch+"</span>";
+                    if(fa_i<consoleArr.length &&
+                      fa_j<consoleArr[0].length-1) {
+                      frame_arr[fa_i][fa_j] = "<span "+s_clr+" data-ind='"+fa_i+":"+fa_j+"'>"+ch+"</span>";
+                    }
 
                     //console.dir(frame_arr);
                     //console.dir(consoleArr);
@@ -948,6 +997,7 @@ function setConsole(data) {
   }
    //frame_arr=[];
     //console.dir(consoleArr);
+   // f.scene.ground.width = data.cWidth;
 
 }
 function clearConsole() {
@@ -956,35 +1006,10 @@ function clearConsole() {
       consoleArr[i][j] = "<span> </span>";
     }
 }
-/*
-function initConsole(conf) {
-  var cW=0;
-  var cH=0;
-  var arrString = [];
 
-  if (conf.width != undefined) {
-    cW=conf.width;
-  } else {
-    cW=10;
-  }
-  if (conf.height != undefined) {
-    cH=conf.height;
-  } else {
-    cH=10;
-  }
-
-  for( var i=0; i<cW; i++) {
-    arrString.push("<span></span>");
-  }
-  arrString.push("<br>");
-  for( var i=0; i<cH; i++) {
-    consoleArr.push(arrString);
-  }
-}
-*/
 
 // console settings
-setConsole({cWidth: 70, cHeight: 10});
+setConsole({cWidth: 80, cHeight: 15});
 
 $(".console").mouseover(function () {
    if (!fAnim) {
@@ -994,6 +1019,10 @@ $(".console").mouseover(function () {
     }
 
   });
+
+function coord(y, h, sh) {
+  return h-y-sh;
+}
 var f = {};
 f.key={};
 f.key.queue=[];
@@ -1006,46 +1035,90 @@ f.pers = {};
 f.pers.jump = {}
 f.pers.jump.flag = false;
 f.pers.jump.num = 0;
+f.pers.jump.maxDelay = 5;
+f.pers.jump.delay = 5;
+f.pers.jump.maxAmount = 3;
+f.pers.jump.amount = 3;
 
 f.scene = {};
 f.scene.ground = {};
-f.scene.ground.width = 30;
+f.scene.ground.width = 80;
 f.scene.ground.i = 0;
+
+f.scene.cloud = {};
+f.scene.cloud.i=0;
 
 
 var y_shift = 0;
-var mainLoop = setInterval(
+var mainLoop;
+function startMainLoop(){
+  mainLoop= setInterval(
   function () {
+    console.log("jumps: "+f.pers.jump.amount);
     // get key
     f.key.cur = f.key.queue.shift();
     // is space
-    if (f.key.cur == 'space') {
+    if (f.key.cur == 'space' &&
+        f.pers.jump.amount > 0) {
       //debugger;
       f.pers.jump.flag = true;
+      f.pers.jump.amount--;
+    } else {
+      if(f.pers.jump.num<1 &&
+        f.pers.jump.amount<f.pers.jump.maxAmount) {
+        f.pers.jump.amount++;
+      }
+    }
+    // is Esc
+    if (f.key.cur == 'esc') {
+      //debugger;
+      mainLoop = clearInterval(mainLoop);
     }
 
     // create jump
     if (f.pers.jump.flag){
+      f.pers.jump.delay = f.pers.jump.maxDelay;
       f.pers.jump.num++;
-      if(f.pers.jump.num>4)
+      if(f.pers.jump.num>7)
         f.pers.jump.flag=false;
     } else {
-      if(f.pers.jump.num>0)
-        f.pers.jump.num--
+      if(f.pers.jump.delay > 0) {
+        f.pers.jump.delay--
+      } else{
+        if(f.pers.jump.num>0)
+          f.pers.jump.num--
+        }
     }
 
-    // move ground
-    f.scene.ground.i++;
-    if (f.scene.ground.i > f.scene.ground.width) {
-      f.scene.ground.i = 0;
-    }
+
 
     // if time to render frame
     if (f.frames.curStep == f.frames.spf)  {
+       // move ground
+        f.scene.ground.i++;
+        if (f.scene.ground.i -25 > f.scene.ground.width) {
+          f.scene.ground.i = 0;
+        }
+        // clouds
+        f.scene.cloud.i += f.scene.ground.i%2;
+        if(f.scene.cloud.i -15> f.scene.ground.width) {
+          f.scene.cloud.i = 0;
+        }
+/**/
       drawScene([
-        {oSprite: ground, yShift: 10, xRepeat: 7},
-        {oSprite: pers, yShift: 5-f.pers.jump.num, xShift: 5}
+        {oSprite: cloud, yShift: coord(5, 15, cloud.height), xShift: 85 -f.scene.cloud.i},
+        {oSprite: cactus, yShift: coord(1, 15, cactus.height), xShift: 95 -f.scene.ground.i},
+        {oSprite: cactus2, yShift: coord(1, 15, cactus2.height), xShift: 80 -f.scene.ground.i},
+        {oSprite: ground, yShift: coord(0, 15, ground.height), xRepeat: 11, xShift: -f.scene.ground.i},
+        {oSprite: pers, yShift: coord(+1 + +f.pers.jump.num, 15, pers.height), xShift: 5}
         ]);
+/**/
+/*/
+      drawScene([
+        {oSprite: test1, yShift: 0, xShift:f.scene.ground.i }
+        ]);
+/**/
+
       y_shift = 0;
     }
 
@@ -1054,11 +1127,25 @@ var mainLoop = setInterval(
     if (f.frames.curStep > f.frames.spf)
      f.frames.curStep=1;
   }, 50);
+}
+startMainLoop();
 
 $('body').keyup(function(eventObject){
     //Space Enter
     if(eventObject.which == 32 || eventObject.which == 13) {
       f.key.queue.push('space');
+    }
+    //Esc
+    if(eventObject.which == 27 || eventObject.keyCode == 27) {
+      f.key.queue.push('esc');
+    }
+    //~
+    if(eventObject.which == 192 || eventObject.keyCode == 192) {
+      console.log(mainLoop);
+      if (mainLoop==undefined ||
+        mainLoop==null) {
+        startMainLoop();
+      }
     }
 });
 
