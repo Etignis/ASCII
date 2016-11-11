@@ -1107,6 +1107,10 @@ function setConsole(data) {
    //frame_arr=[];
     //console.dir(consoleArr);
    // f.scene.ground.width = data.cWidth;
+   $(".console").eq(0).css({
+    "width": data.cWidth/2+ +4 +"em",
+    "height": +data.cHeight+ +4 +"em",
+   });
 
 }
 function clearConsole() {
