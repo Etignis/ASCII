@@ -2,46 +2,7 @@ function exist(elem) {
   (elem.length>0) ? true : false;
 }
 $(window).load(function(){
-  var f = {};
 
-  f.key={};
-  f.key.queue=[];
-
-  f.frames={};
-  f.frames.spf=2;
-  f.frames.curStep=1;
-
-  f.pers = {};
-  f.pers.jump = {}
-  f.pers.jump.flag = false;
-  f.pers.jump.num = 0;
-  f.pers.jump.maxDelay = 5;
-  f.pers.jump.delay = 5;
-  f.pers.jump.maxAmount = 3;
-  f.pers.jump.amount = 3;
-
-  f.scene = {};
-
-  f.scene.ground = {};
-  f.scene.ground.width = 80;
-  f.scene.ground.i = 0;
-
-  f.scene.cactus1 = {};
-  f.scene.cactus1.width = 5;
-  f.scene.cactus1.i = 0;
-
-  f.scene.cloud = {};
-  f.scene.cloud.i=0;
-
-  f.scene.deathStar = {};
-  f.scene.deathStar.i=0;
-
-  f.simb={};
-  f.simb.spriteEmpty='№';
-
-  f.console = {};
-  f.console.w = f.scene.ground.width;
-  f.console.h = 15;
   var fAnim = false;
 
   var nMaintTimer;
@@ -678,11 +639,11 @@ var rain = {
 var cactus = {
   "sprites": [
     [
-      "  @ ",
-      "@ @ ",
+      "  @",
+      "@ @",
       "@ @ @",
-      " @@@ ",
-      "  @   "
+      " @@@",
+      "  @"
     ]
   ],
 
@@ -707,10 +668,10 @@ var cactus = {
 var cactus2 = {
   "sprites": [
     [
-      "  @  ",
+      "  @",
       "@ @ @",
-      " @@@ ",
-      "  @   "
+      " @@@",
+      "  @"
     ]
   ],
 
@@ -908,8 +869,79 @@ var cloud = {
   },
 
   "colorDefault": "#ddd",
-  "height": 5
+  "height": 5,
+  "width": 11
 };
+
+
+
+  var f = {};
+
+  f.key={};
+  f.key.queue=[];
+
+  f.frames={};
+  f.frames.spf=2;
+  f.frames.curStep=1;
+
+  f.pers = {};
+  f.pers.jump = {}
+  f.pers.jump.flag = false;
+  f.pers.jump.num = 0;
+  f.pers.jump.maxDelay = 5;
+  f.pers.jump.delay = 5;
+  f.pers.jump.maxAmount = 3;
+  f.pers.jump.amount = 3;
+
+  f.scene = {};
+
+  f.scene.ground = {};
+  f.scene.ground.width = 80;
+  f.scene.ground.i = 0;
+
+  f.scene.cactus1 = {};
+  f.scene.cactus1.width = 5;
+  f.scene.cactus1.i = 0;
+
+  f.scene.cloud = {};
+  f.scene.cloud.i=0;
+
+  f.scene.deathStar = {};
+  f.scene.deathStar.i=0;
+
+  f.simb={};
+  f.simb.spriteEmpty='№';
+
+  f.console = {};
+  f.console.w = f.scene.ground.width;
+  f.console.h = 15;
+
+// game objects
+  f.o = {};
+  f.o.ground = {};
+  f.o.cloud1 = {};
+  f.o.cloud2 = {};
+  f.o.cloud3 = {};
+  f.o.cloud4 = {};
+
+  f.o.cactus1 = {};
+  f.o.cactus2 = {};
+  f.o.cactus3 = {};
+
+  f.o.deathstar = {};
+
+  f.o.ground.sprite = ground;
+  f.o.ground.posX = 0;
+
+  f.o.cloud1.sprite = cloud;
+  f.o.cloud1.posX = 10;
+  f.o.cloud2.sprite = cloud;
+  f.o.cloud2.posX = 20;
+  f.o.cloud3.sprite = cloud;
+  f.o.cloud3.posX = 30;
+  f.o.cloud4.sprite = cloud;
+  f.o.cloud4.posX = 40;
+  //////////////////////////
 
 
 //console.log(example.sprites[0][0]);
@@ -997,7 +1029,8 @@ function drawScene (spriteSets, frameTime) {
 
         // strings
         for (string in theFrame) {
-          if(string<consoleArr.length) {
+          if(string < consoleArr.length) {
+            var f_space = true; // flag if space simbol
             var s_length = theFrame[string].length;
             var fa_i = Math.min(Number(+string + +yShift + +(theFrame.length * yRi)), consoleArr.length);
             if ( frame_arr[fa_i] == undefined)
@@ -1022,11 +1055,14 @@ function drawScene (spriteSets, frameTime) {
             for (var xRj = 0; xRj < tmp_xR; xRj++) {
               // chars
               for (char in theFrame[string]) {
-                if (char<consoleArr[0].length){
+                if (char < consoleArr[0].length){
 
                   var ch = theFrame[string][char];
                   var fa_j = Math.min(Number(+char + +xShift + +(xRj * theFrame[string].length)), consoleArr[0].length);
 
+                  if (ch != ' '){
+                    f_space = false;
+                  }
                   // color pattern ?
                   if (s_length > 0) {
                     // color not null ?
@@ -1048,7 +1084,7 @@ function drawScene (spriteSets, frameTime) {
                     }
 
                     // what color?
-                    if (clr_ch != " ") {
+                    if (clr_ch != "") {
                       var clr = theSprite.colorPresets[clr_ch];
                       var s_clr =  " style='color: "+clr+"'";
                     } else {
@@ -1056,19 +1092,19 @@ function drawScene (spriteSets, frameTime) {
                     }
 
                     // add simbol
-                    if(fa_i<consoleArr.length &&
-                      fa_j<consoleArr[0].length-1) {
+                    if(fa_i < consoleArr.length &&
+                       fa_j < consoleArr[0].length-1) {
+                      if (f_space) {
+                        continue;
+                      }
                       frame_arr[fa_i][fa_j] = "<span "+s_clr+" data-ind='"+fa_i+":"+fa_j+"'>"+ch+"</span>";
-                    }
+                    }/// add simbol
 
-                    //console.dir(frame_arr);
-                    //console.dir(consoleArr);
-
-                  }
-                }
-              }
+                  }/// s_length>0
+                }/// char < length
+              }/// for chars
             }// repeat x
-          }
+          } /// string < length
         }//
 
 
@@ -1104,9 +1140,7 @@ function setConsole(data) {
   for (var i = 0; i<data.cHeight; i++) {
    consoleArr = consoleArr.concat([stringArr.split("|")]);
   }
-   //frame_arr=[];
-    //console.dir(consoleArr);
-   // f.scene.ground.width = data.cWidth;
+
    $(".console").eq(0).css({
     "width": data.cWidth/2+ +4 +"em",
     "height": +data.cHeight+ +4 +"em",
@@ -1195,9 +1229,9 @@ function startMainLoop(){
           f.scene.cactus1.i = 0;
         }
         // clouds
-        f.scene.cloud.i += f.scene.ground.i%2;
-        if(f.scene.cloud.i -15> f.scene.ground.width) {
-          f.scene.cloud.i = 0;
+        f.o.cloud1.posX--;
+        if(f.o.cloud1.posX < -f.o.cloud1.sprite.width) {
+          f.o.cloud1.posX = f.scene.ground.width;
         }
         // deathStar
         f.scene.deathStar.i += f.scene.ground.i%3==0?1:0;
@@ -1207,7 +1241,7 @@ function startMainLoop(){
 
         // check stat
         stat.sprites[0][0]="Jumps: " + f.pers.jump.amount;
-/**/
+/*/
       drawScene([
         {oSprite: deathStar, yShift: coord(5, 15, deathStar.height), xShift: 95 -f.scene.deathStar.i},
         {oSprite: cloud, yShift: coord(5, 15, cloud.height), xShift: 85 -f.scene.cloud.i},
@@ -1219,9 +1253,9 @@ function startMainLoop(){
         {oSprite: stat}
         ]);
 /**/
-/*/
+/**/
       drawScene([
-        {oSprite: test1, yShift: 0, xShift:f.scene.ground.i }
+        {oSprite: f.o.cloud1.sprite, yShift: 0, xShift: f.o.cloud1.posX}
         ]);
 /**/
 
