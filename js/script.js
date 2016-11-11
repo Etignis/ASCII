@@ -2,6 +2,46 @@ function exist(elem) {
   (elem.length>0) ? true : false;
 }
 $(window).load(function(){
+  var f = {};
+
+  f.key={};
+  f.key.queue=[];
+
+  f.frames={};
+  f.frames.spf=2;
+  f.frames.curStep=1;
+
+  f.pers = {};
+  f.pers.jump = {}
+  f.pers.jump.flag = false;
+  f.pers.jump.num = 0;
+  f.pers.jump.maxDelay = 5;
+  f.pers.jump.delay = 5;
+  f.pers.jump.maxAmount = 3;
+  f.pers.jump.amount = 3;
+
+  f.scene = {};
+
+  f.scene.ground = {};
+  f.scene.ground.width = 80;
+  f.scene.ground.i = 0;
+
+  f.scene.cactus1 = {};
+  f.scene.cactus1.width = 5;
+  f.scene.cactus1.i = 0;
+
+  f.scene.cloud = {};
+  f.scene.cloud.i=0;
+
+  f.scene.deathStar = {};
+  f.scene.deathStar.i=0;
+
+  f.simb={};
+  f.simb.spriteEmpty='№';
+
+  f.console = {};
+  f.console.w = f.scene.ground.width;
+  f.console.h = 15;
   var fAnim = false;
 
   var nMaintTimer;
@@ -695,19 +735,19 @@ var cactus2 = {
 var ground = {
   "sprites": [
     [
-      "==-=--=-=--==-==-=-"
+      "==-=--=-=--==-==-=--"
     ]
   ],
 
   "colorPatterns": [
     [
-      "dmldmldmldmldmldmlm"
+      "dmldmldmldmldmldmlml"
     ],
     [
-      "mldmldmldmldmldmldl"
+      "mldmldmldmldmldmldld"
     ],
     [
-      "ldmldmldmldmldmldmd"
+      "ldmldmldmldmldmldmdm"
     ]
   ],
 
@@ -1078,7 +1118,7 @@ function clearConsole() {
 
 
 // console settings
-setConsole({cWidth: 80, cHeight: 15});
+setConsole({cWidth: f.console.w, cHeight: f.console.h});
 
 $(".console").mouseover(function () {
    if (!fAnim) {
@@ -1092,33 +1132,7 @@ $(".console").mouseover(function () {
 function coord(y, h, sh) {
   return h-y-sh;
 }
-var f = {};
-f.key={};
-f.key.queue=[];
 
-f.frames={};
-f.frames.spf=2;
-f.frames.curStep=1;
-
-f.pers = {};
-f.pers.jump = {}
-f.pers.jump.flag = false;
-f.pers.jump.num = 0;
-f.pers.jump.maxDelay = 5;
-f.pers.jump.delay = 5;
-f.pers.jump.maxAmount = 3;
-f.pers.jump.amount = 3;
-
-f.scene = {};
-f.scene.ground = {};
-f.scene.ground.width = 80;
-f.scene.ground.i = 0;
-
-f.scene.cloud = {};
-f.scene.cloud.i=0;
-
-f.simb={};
-f.simb.spriteEmpty='№';
 
 
 var y_shift = 0;
@@ -1126,7 +1140,7 @@ var mainLoop;
 function startMainLoop(){
   mainLoop= setInterval(
   function () {
-    console.log("jumps: "+f.pers.jump.amount);
+    //console.log("jumps: "+f.pers.jump.amount);
     // get key
     f.key.cur = f.key.queue.shift();
     // is space
@@ -1168,24 +1182,34 @@ function startMainLoop(){
     if (f.frames.curStep == f.frames.spf)  {
        // move ground
         f.scene.ground.i++;
-        if (f.scene.ground.i -25 > f.scene.ground.width) {
+        if (f.scene.ground.i > 10) {
           f.scene.ground.i = 0;
+        }
+       // move cactus1
+        f.scene.cactus1.i++;
+        if (f.scene.cactus1.i > f.scene.ground.width) {
+          f.scene.cactus1.i = 0;
         }
         // clouds
         f.scene.cloud.i += f.scene.ground.i%2;
         if(f.scene.cloud.i -15> f.scene.ground.width) {
           f.scene.cloud.i = 0;
         }
+        // deathStar
+        f.scene.deathStar.i += f.scene.ground.i%3==0?1:0;
+        if(f.scene.deathStar.i -15> f.scene.ground.width) {
+          f.scene.deathStar.i = 0;
+        }
 
         // check stat
         stat.sprites[0][0]="Jumps: " + f.pers.jump.amount;
 /**/
       drawScene([
-        {oSprite: deathStar, yShift: coord(5, 15, deathStar.height), xShift: 95 -f.scene.cloud.i},
+        {oSprite: deathStar, yShift: coord(5, 15, deathStar.height), xShift: 95 -f.scene.deathStar.i},
         {oSprite: cloud, yShift: coord(5, 15, cloud.height), xShift: 85 -f.scene.cloud.i},
-        {oSprite: cactus, yShift: coord(1, 15, cactus.height), xShift: 95 -f.scene.ground.i},
+        {oSprite: cactus, yShift: coord(1, 15, cactus.height), xShift: 95 -f.scene.cactus1.i},
         {oSprite: cactus2, yShift: coord(1, 15, cactus2.height), xShift: 80 -f.scene.ground.i},
-        {oSprite: ground, yShift: coord(0, 15, ground.height), xRepeat: 11, xShift: -f.scene.ground.i},
+        {oSprite: ground, yShift: coord(0, 15, ground.height), xRepeat: 6, xShift: -f.scene.ground.i},
         {oSprite: pers, yShift: coord(+1 + +f.pers.jump.num, 15, pers.height), xShift: 5},
 
         {oSprite: stat}
@@ -1206,9 +1230,7 @@ function startMainLoop(){
      f.frames.curStep=1;
   }, 50);
 }
-function printStat(){
 
-}
 startMainLoop();
 
 $('body').keyup(function(eventObject){
